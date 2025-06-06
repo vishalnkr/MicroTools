@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PNG Converter - Multi-Tools</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header"></header>
+
+    <!-- Main Content -->
+    <main class="container py-4">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">Image to PNG Converter</h1>
+                        <p class="text-center mb-4">Convert your images to PNG format easily. Supports JPG, JPEG, GIF, BMP, and other formats.</p>
+                        
+                        <div class="upload-area p-4 text-center border rounded mb-4">
+                            <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-primary"></i>
+                            <h4>Drag & Drop your image here</h4>
+                            <p class="text-muted">or</p>
+                            <input type="file" id="imageInput" class="d-none" accept="image/*">
+                            <button class="btn btn-primary" onclick="document.getElementById('imageInput').click()">
+                                Choose File
+                            </button>
+                        </div>
+
+                        <div id="previewArea" class="d-none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>Original Image</h5>
+                                    <img id="originalPreview" class="img-fluid mb-3" alt="Original image preview">
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>PNG Preview</h5>
+                                    <img id="pngPreview" class="img-fluid mb-3" alt="PNG preview">
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button id="downloadBtn" class="btn btn-success">
+                                    <i class="fas fa-download"></i> Download PNG
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer"></footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/js/main.js"></script>
+    <script>
+        // Tool-specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageInput = document.getElementById('imageInput');
+            const previewArea = document.getElementById('previewArea');
+            const originalPreview = document.getElementById('originalPreview');
+            const pngPreview = document.getElementById('pngPreview');
+            const downloadBtn = document.getElementById('downloadBtn');
+
+            imageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        originalPreview.src = e.target.result;
+                        pngPreview.src = e.target.result;
+                        previewArea.classList.remove('d-none');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            downloadBtn.addEventListener('click', function() {
+                const link = document.createElement('a');
+                link.download = 'converted-image.png';
+                link.href = pngPreview.src;
+                link.click();
+            });
+        });
+    </script>
+</body>
+</html> 
